@@ -13,12 +13,10 @@ import { AuthContext } from "../providers/AuthProvider";
 
 const LINKS = [
   {
-    // icon: ,
     title: "Home",
     href: "/",
   },
   {
-    // icon: ProfileCircle,
     title: "Add Task",
     href: "/add-task",
   },
@@ -49,11 +47,11 @@ const StickyNavbar = () => {
 
   const handleLogout = () => {
     logOut()
-    .then(() => {})
-    .catch(error => {
-      console.log(error);
-    })
-  }
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     window.addEventListener(
@@ -63,14 +61,11 @@ const StickyNavbar = () => {
   }, []);
 
   return (
-    <div className="">
-      <Navbar className="sticky top-0 rounded-none">
+    <div>
+      <Navbar className="fixed z-10 w-11/12 rounded-none">
         <div className="flex items-center">
           <Link to="/">
-            <Typography
-              type="small"
-              className="ml-2 mr-2 block py-1 font-semibold"
-            >
+            <Typography type="small" className=" mr-2 block py-1 font-semibold">
               Task Management
             </Typography>
           </Link>
@@ -79,12 +74,15 @@ const StickyNavbar = () => {
             <NavList />
           </div>
           {user ? (
-            <><Button onClick={handleLogout}
-            size="sm"
-            className="hidden bg-indigo-500 hover:bg-indigo-600 border-none lg:ml-auto lg:inline-block"
-          >
-            Sign Out
-          </Button></>
+            <>
+              <Button
+                onClick={handleLogout}
+                size="sm"
+                className="hidden bg-indigo-500 hover:bg-indigo-600 border-none lg:ml-auto lg:inline-block"
+              >
+                Sign Out
+              </Button>
+            </>
           ) : (
             <>
               <Button
@@ -112,11 +110,30 @@ const StickyNavbar = () => {
         </div>
         <Collapse open={openNav}>
           <NavList />
-          <Link to="/signIn">
-            <Button isFullWidth size="sm" className="mt-4 bg-indigo-500 hover:bg-indigo-600 border-none">
-              Sign In
-            </Button>
-          </Link>
+          <div>
+            {user ? (
+              <>
+                <Button
+                  isFullWidth
+                  onClick={handleLogout}
+                  size="sm"
+                  className="bg-indigo-500 hover:bg-indigo-600 border-none lg:ml-auto lg:inline-block"
+                >
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  isFullWidth
+                  size="sm"
+                  className="bg-indigo-500 hover:bg-indigo-600 border-none lg:ml-auto lg:inline-block"
+                >
+                  <Link to="/signIn">Sign In</Link>
+                </Button>
+              </>
+            )}
+          </div>
         </Collapse>
       </Navbar>
     </div>

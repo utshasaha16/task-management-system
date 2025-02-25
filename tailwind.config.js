@@ -9,5 +9,5 @@ export default ({
   theme: {
     extend: {},
   },
-  plugins: [mtConfig],
+  plugins: [mtConfig, require('daisyui')],
 });

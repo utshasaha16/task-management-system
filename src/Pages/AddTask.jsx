@@ -3,37 +3,42 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const AddTask = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [dueDate, setDueDate] = useState(new Date());
-  const [status, setStatus] = useState("");
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     data.start_date = startDate.toISOString();
     data.due_date = dueDate.toISOString();
-    data.status = status;
-    console.log(data);
+    
+    const res = await axios.post("http://localhost:5000/addTask", data)
+    console.log(res.data);
+    if(res.data.insertedId){
+      Swal.fire({
+        position: "top-top",
+        icon: "success",
+        title: "Your task has been saved",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      reset();
+    }else{
+      Swal.fire({
+        position: "top-top",
+        icon: "error",
+        title: "Your task could not be saved",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    }
+    
   };
-
-  const handleStatusChange = (status) => {
-    setStatus(status);
-  };
-
-  // const handleAddTask = (e) => {
-  //   e.preventDefault();
-  //   const formData = new FormData(e.target);
-  //   const title = formData.get("title");
-  //   const description = formData.get("description");
-
-  //   const start_date = startDate.toISOString();
-  //   const due_date = dueDate.toISOString();
-  //   console.log({ title, description, status, start_date, due_date });
-  // };
-
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen pt-12 bg-gray-100">
       <div className=" p-4 rounded-lg w-full">
         <h2 className="text-2xl font-semibold text-center">Create Your Task</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
@@ -83,7 +88,7 @@ const AddTask = () => {
               Timeline
             </Typography>
           </div>
-          <div className="flex justify-between">
+          <div className="md:flex md:justify-between justify-normal">
             <div className="mb-4">
               <Typography
                 as="label"
@@ -112,7 +117,7 @@ const AddTask = () => {
               >
                 Due Date
               </Typography>
-              <div className="text-gray-700">
+              <div className="text-gray-700 w-1/2">
                 <DatePicker
                   showIcon
                   selected={dueDate}
@@ -133,19 +138,14 @@ const AddTask = () => {
               Task Status
             </Typography>
 
-            <Select
-              className="w-full"
-              placeholder="Select Status"
-              onChange={handleStatusChange}
-              required
-            >
-              <Select.Trigger className="w-full" placeholder="Select Version" />
-              <Select.List>
-                <Select.Option value="To-Do">To-Do</Select.Option>
-                <Select.Option value="In Progress">In Progress</Select.Option>
-                <Select.Option value="Done">Done</Select.Option>
-              </Select.List>
-            </Select>
+            <select defaultValue="null" {...register("task-status")} className="select hover:border-black select-bordered w-full">
+              <option disabled value="null">
+                Select Task Status
+              </option>
+              <option>To-Do</option>
+              <option>In Progress</option>
+              <option>Done</option>
+            </select>
           </div>
           <button
             type="submit"
