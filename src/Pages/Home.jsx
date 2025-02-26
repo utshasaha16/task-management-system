@@ -2,9 +2,10 @@ import React from 'react';
 import Task from './Task';
 
 const Home = () => {
+    
     return (
         <div className=''>
-            <section className='py-12'>
+            <section className='pt-20'>
                 <Task></Task>
             </section>
         </div>

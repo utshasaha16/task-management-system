@@ -11,22 +11,39 @@ import SignUp from "./Pages/SignUp.jsx";
 import AuthProvider from "./providers/AuthProvider.jsx";
 import AddTask from "./Pages/AddTask.jsx";
 import PrivateRoute from "./routes/PrivateRoute.jsx";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import UpdateTask from "./Pages/UpdateTask.jsx";
+
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <ThemeProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<MainLayout></MainLayout>}>
-              <Route index element={<Home></Home>}></Route>
-              <Route path="/signIn" element={<SignIn></SignIn>}></Route>
-              <Route path="/signUp" element={<SignUp></SignUp>}></Route>
-              <Route path="/add-task" element={<PrivateRoute><AddTask></AddTask></PrivateRoute>}></Route>
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<MainLayout></MainLayout>}>
+                <Route index element={<Home></Home>}></Route>
+                <Route path="/signIn" element={<SignIn></SignIn>}></Route>
+                <Route path="/signUp" element={<SignUp></SignUp>}></Route>
+                <Route
+                  path="/add-task"
+                  element={
+                    <PrivateRoute>
+                      <AddTask></AddTask>
+                    </PrivateRoute>
+                  }
+                ></Route>
+                <Route path="/updateTask/:id" element={<UpdateTask></UpdateTask>} ></Route>
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </QueryClientProvider>
     </AuthProvider>
   </StrictMode>
 );

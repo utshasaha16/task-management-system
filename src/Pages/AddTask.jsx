@@ -1,4 +1,4 @@
-import { Input, Typography, Select, Textarea } from "@material-tailwind/react";
+import { Input, Typography, Textarea } from "@material-tailwind/react";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { useState } from "react";
@@ -19,7 +19,7 @@ const AddTask = () => {
     console.log(res.data);
     if(res.data.insertedId){
       Swal.fire({
-        position: "top-top",
+        position: "center",
         icon: "success",
         title: "Your task has been saved",
         showConfirmButton: false,
@@ -28,7 +28,7 @@ const AddTask = () => {
       reset();
     }else{
       Swal.fire({
-        position: "top-top",
+        position: "center",
         icon: "error",
         title: "Your task could not be saved",
         showConfirmButton: false,
@@ -38,7 +38,7 @@ const AddTask = () => {
     
   };
   return (
-    <div className="flex justify-center items-center min-h-screen pt-12 bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen pt-20 bg-gray-100">
       <div className=" p-4 rounded-lg w-full">
         <h2 className="text-2xl font-semibold text-center">Create Your Task</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
@@ -138,7 +138,7 @@ const AddTask = () => {
               Task Status
             </Typography>
 
-            <select defaultValue="null" {...register("task-status")} className="select hover:border-black select-bordered w-full">
+            <select defaultValue="null" {...register("status")} className="select hover:border-black select-bordered w-full">
               <option disabled value="null">
                 Select Task Status
               </option>

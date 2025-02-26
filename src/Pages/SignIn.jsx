@@ -3,6 +3,7 @@ import { FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../providers/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 const SignIn = () => {
   const { signIn, googleSignIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -15,24 +16,32 @@ const SignIn = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        Swal.fire({
-          title: "Successfully Sign In",
-          showClass: {
-            popup: `
-                  animate__animated
-                  animate__fadeInUp
-                  animate__faster
-                `,
-          },
-          hideClass: {
-            popup: `
-                  animate__animated
-                  animate__fadeOutDown
-                  animate__faster
-                `,
-          },
+        const userInfo = {
+          email: user?.email,
+          name: user?.displayName,
+        };
+        axios.post("http://localhost:5000/users", userInfo).then((res) => {
+          console.log(res.data);
+          Swal.fire({
+            title: "Successfully Sign In",
+            showClass: {
+              popup: `
+                    animate__animated
+                    animate__fadeInUp
+                    animate__faster
+                  `,
+            },
+            hideClass: {
+              popup: `
+                    animate__animated
+                    animate__fadeOutDown
+                    animate__faster
+                  `,
+            },
+          });
+          navigate(from, { replace: true });
         });
-        navigate(from, { replace: true });
+        
       })
       .catch((error) => {
         console.log(error);

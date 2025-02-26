@@ -3,6 +3,7 @@ import { FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../providers/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 const SignUp = () => {
   const { createUser, googleSignIn, updateProfileInfo } =
     useContext(AuthContext);
@@ -16,24 +17,31 @@ const SignUp = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        Swal.fire({
-          title: "Successfully Sign In",
-          showClass: {
-            popup: `
-                  animate__animated
-                  animate__fadeInUp
-                  animate__faster
-                `,
-          },
-          hideClass: {
-            popup: `
-                  animate__animated
-                  animate__fadeOutDown
-                  animate__faster
-                `,
-          },
+        const userInfo = {
+          email: user?.email,
+          name: user?.displayName,
+        };
+        axios.post("http://localhost:5000/users", userInfo).then((res) => {
+          console.log(res.data);
+          Swal.fire({
+            title: "Successfully Sign In",
+            showClass: {
+              popup: `
+                    animate__animated
+                    animate__fadeInUp
+                    animate__faster
+                  `,
+            },
+            hideClass: {
+              popup: `
+                    animate__animated
+                    animate__fadeOutDown
+                    animate__faster
+                  `,
+            },
+          });
+          navigate(from, { replace: true });
         });
-        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log(error);
@@ -52,24 +60,32 @@ const SignUp = () => {
       console.log(user);
       updateProfileInfo(name)
         .then(() => {
-          Swal.fire({
-            title: "Successfully Sign Up",
-            showClass: {
-              popup: `
-                      animate__animated
-                      animate__fadeInUp
-                      animate__faster
-                    `,
-            },
-            hideClass: {
-              popup: `
-                      animate__animated
-                      animate__fadeOutDown
-                      animate__faster
-                    `,
-            },
+          const userInfo = {
+            email: email,
+            name: name,
+          };
+          axios.post("http://localhost:5000/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              Swal.fire({
+                title: "Successfully Sign Up",
+                showClass: {
+                  popup: `
+                          animate__animated
+                          animate__fadeInUp
+                          animate__faster
+                        `,
+                },
+                hideClass: {
+                  popup: `
+                          animate__animated
+                          animate__fadeOutDown
+                          animate__faster
+                        `,
+                },
+              });
+              navigate(from, { replace: true });
+            }
           });
-          navigate(from, { replace: true });
         })
         .catch((error) => {
           console.log(error);
@@ -78,7 +94,7 @@ const SignUp = () => {
   };
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className=" p-6 rounded-lg  w-full">
+      <div className=" p-6 rounded-lg w-full">
         <h2 className="text-2xl font-semibold text-center">Sign Up</h2>
         <p className="text-gray-500 text-center mt-2">
           Give credentials to sign Up to your account
