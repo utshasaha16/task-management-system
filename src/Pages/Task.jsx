@@ -32,7 +32,7 @@ const Task = () => {
     })
       .then((result) => {
         if (result.isConfirmed) {
-          axios.delete(`http://localhost:5000/tasks/${id}`).then((res) => {
+          axios.delete(`https://task-management-server-alpha-drab.vercel.app/tasks/${id}`).then((res) => {
             if (res.data.deletedCount > 0) {
               refetch();
               Swal.fire({

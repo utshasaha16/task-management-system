@@ -6,7 +6,7 @@ const useTask = () => {
     const {data: task = [], refetch, isLoading} = useQuery({
         queryKey: ['tasks'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/tasks');
+            const res = await axios.get('https://task-management-server-alpha-drab.vercel.app/tasks');
             return res.data;
         }
     })

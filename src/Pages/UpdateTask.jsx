@@ -16,14 +16,14 @@ const UpdateTask = () => {
   const { data: task = [], isLoading } = useQuery({
     queryKey: ["task", id],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:5000/tasks/${id}`);
+      const res = await axios.get(`https://task-management-server-alpha-drab.vercel.app/tasks/${id}`);
       return res.data;
     },
   });
 
   const onSubmit = async (data) => {
 
-    const res = await axios.patch(`http://localhost:5000/tasks/${id}`, data);
+    const res = await axios.patch(`https://task-management-server-alpha-drab.vercel.app/tasks/${id}`, data);
     console.log(res.data);
     if (res.data.modifiedCount > 0) {
       Swal.fire({

@@ -21,7 +21,7 @@ const SignUp = () => {
           email: user?.email,
           name: user?.displayName,
         };
-        axios.post("http://localhost:5000/users", userInfo).then((res) => {
+        axios.post("https://task-management-server-alpha-drab.vercel.app/users", userInfo).then((res) => {
           console.log(res.data);
           Swal.fire({
             title: "Successfully Sign In",
@@ -64,7 +64,7 @@ const SignUp = () => {
             email: email,
             name: name,
           };
-          axios.post("http://localhost:5000/users", userInfo).then((res) => {
+          axios.post("https://task-management-server-alpha-drab.vercel.app/users", userInfo).then((res) => {
             if (res.data.insertedId) {
               Swal.fire({
                 title: "Successfully Sign Up",

@@ -15,7 +15,7 @@ const AddTask = () => {
     data.start_date = startDate.toISOString();
     data.due_date = dueDate.toISOString();
     
-    const res = await axios.post("http://localhost:5000/addTask", data)
+    const res = await axios.post("https://task-management-server-alpha-drab.vercel.app/addTask", data)
     console.log(res.data);
     if(res.data.insertedId){
       Swal.fire({
